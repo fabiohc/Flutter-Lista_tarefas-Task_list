@@ -13,7 +13,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List _toDoList = [];
+  List _toDoList = [
+    "Tarefa A","Tarefa B,","Tarefa C,","Tarefa D"
+  ];
 
   Future<String> _readData() async {
     try {
@@ -48,16 +50,17 @@ class _HomeState extends State<Home> {
           labelText: "Nova Tarefa", labelStyle: TextStyle(color: Colors.black)),
     );
 
-    RaisedButton btnAdd = RaisedButton(onPressed: null,
-    color: Colors.black,
-    child: Text("ADD"),
+    RaisedButton btnAdd = RaisedButton(
+      onPressed: null,
+      color: Colors.black,
+      child: Text("ADD"),
       textColor: Colors.white,
     );
 
     Row row = Row(
       children: <Widget>[
         Expanded(
-       child: textFormField,
+          child: textFormField,
         ),
         btnAdd
       ],
@@ -68,12 +71,31 @@ class _HomeState extends State<Home> {
       child: row,
     );
 
+    ListView listViewTarefas = ListView.builder(
+        padding: EdgeInsets.only(top: 10.0),
+        itemCount: _toDoList.length,
+        itemBuilder: (context, index) {
+          return CheckboxListTile(
+            title: Text(_toDoList[index]),
+            value: false,
+            secondary: CircleAvatar(
+              child: Icon(Icons.cached),
+          ),
+          );
+        });
+
     Column column = Column(
-      children: <Widget>[containerTop],
+      children: <Widget>[
+        containerTop,
+        Expanded(
+          child: listViewTarefas,
+        )
+      ],
     );
 
     Scaffold scaffold = Scaffold(
       appBar: appBar,
+      body: column,
     );
     return scaffold;
   }
